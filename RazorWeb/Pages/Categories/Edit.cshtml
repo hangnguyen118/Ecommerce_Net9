@@ -1,0 +1,31 @@
+﻿@page
+@model RazorWeb.Pages.Categories.EditModel
+@{
+}
+<h1>Edit Category</h1>
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+        <label asp-for="Category.Name"></label>
+        <input type="text" asp-for="Category.Name" class="form-control" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Category.Description"></label>
+        <input type="text" asp-for="Category.Description" class="form-control" />
+        <span asp-validation-for="Category.Description" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary" style="width:100%">Update</button>
+        </div>
+        <div class="col-6">
+            <a asp-page="/Categories/Index" class="btn btn-secondary" style="width:100%">Back to list</a>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
