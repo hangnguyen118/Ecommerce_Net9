@@ -16,11 +16,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EcommerceWebsite.DataContext\EcommerceWebsite.DataContext.csproj" />
     <ProjectReference Include="..\EcommerceWebsite.EntityModels\EcommerceWebsite.EntityModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Customer\Controllers\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
