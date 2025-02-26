@@ -1,0 +1,37 @@
+# 🛠 **Build output**
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.log
+*.cache
+*.vspscc
+*.vssscc
+.vscode/
+
+# 🗄 **NuGet Packages**
+*.nupkg
+packages/
+project.lock.json
+project.assets.json
+
+# 🚀 **User-specific files**
+.vs/
+.idea/
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+
+# 🔧 **ASP.NET Core**
+appsettings*.json
+secrets.json
+.env
+.env.*.local
+
+# 🔑 **Sensitive Information**
+**/secrets/
+**/secrets.json
+**/appsettings.Local.json
