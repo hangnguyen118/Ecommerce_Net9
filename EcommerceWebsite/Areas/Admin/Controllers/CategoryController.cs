@@ -18,50 +18,31 @@ namespace EcommerceWebsite.Areas.Admin.Controllers
             List<Category> categories = _unitOfWork.Category.GetAll().ToList();
             return View(categories);
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Category obj)
-        {
-            if (obj.Name == "Test")
-            {
-                ModelState.AddModelError("", "The Category Name cannot exactly match the Name.");
-            }
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Category.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Category created successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-        public IActionResult Edit(int? id)
-        {
+        public IActionResult Upsert(int? id)
+        {            
             if (id == null || id == 0)
             {
-                return NotFound();
+                Category category = new Category();
+                return View(category);
             }
             Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
-            return View(categoryFromDb);
+            return View(categoryFromDb);           
         }
         [HttpPost]
-        public IActionResult Edit(Category obj)
+        public IActionResult Upsert(Category obj)
         {
             if (ModelState.IsValid)
             {
                 _unitOfWork.Category.Update(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category updated successfully";
-                return RedirectToAction("Index");
+                
             }
-            return View();
+            TempData["success"] = "Category update successfully";
+            return RedirectToAction("Index");
         }
         public IActionResult Delete(int? id)
         {
