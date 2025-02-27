@@ -4,6 +4,7 @@ using EcommerceWebsite.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceWebsite.DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250226105438_AddProductTable")]
+    partial class AddProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,19 +52,19 @@ namespace EcommerceWebsite.DataContext.Migrations
                         {
                             Id = 1,
                             Description = "no description",
-                            Name = "Category 1"
+                            Name = "Book 1"
                         },
                         new
                         {
                             Id = 2,
                             Description = "no description",
-                            Name = "Category 2"
+                            Name = "Book 2"
                         },
                         new
                         {
                             Id = 3,
                             Description = "no description",
-                            Name = "Category 3"
+                            Name = "Book 3"
                         });
                 });
 
@@ -73,16 +76,10 @@ namespace EcommerceWebsite.DataContext.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -94,15 +91,12 @@ namespace EcommerceWebsite.DataContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CategoryId = 1,
                             Description = "no description",
                             Price = 300.0,
                             Title = "Product 1"
@@ -110,7 +104,6 @@ namespace EcommerceWebsite.DataContext.Migrations
                         new
                         {
                             Id = 2,
-                            CategoryId = 1,
                             Description = "no description",
                             Price = 350.0,
                             Title = "Product 2"
@@ -118,58 +111,9 @@ namespace EcommerceWebsite.DataContext.Migrations
                         new
                         {
                             Id = 3,
-                            CategoryId = 2,
                             Description = "no description",
                             Price = 400.0,
                             Title = "Product 3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 2,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 4"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 2,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 5"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 3,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 6"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryId = 1,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 7"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CategoryId = 2,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 8"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CategoryId = 1,
-                            Description = "no description",
-                            Price = 400.0,
-                            Title = "Product 9"
                         });
                 });
 
@@ -373,17 +317,6 @@ namespace EcommerceWebsite.DataContext.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("EcommerceWebsite.EntityModels.Product", b =>
-                {
-                    b.HasOne("EcommerceWebsite.EntityModels.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

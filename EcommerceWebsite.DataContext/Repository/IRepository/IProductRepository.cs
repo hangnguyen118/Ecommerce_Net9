@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EcommerceWebsite.DataContext.Repository.IRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<Category> GetAll();
-        void Update(Category category);
+        IEnumerable<Product> GetAll();
+        void Update(Product product);
     }
 }

@@ -38,5 +38,10 @@ namespace EcommerceWebsite.DataContext.Repository
             query = query.Where(filter);
             return query.FirstOrDefault();
         }
+
+        public IEnumerable<T> GetAll(string includeProperties)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

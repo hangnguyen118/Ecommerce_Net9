@@ -1,0 +1,38 @@
+﻿@model ProductVM
+
+<h1>Delete Product</h1>
+<form method="post">
+    <input asp-for="Product.Id" hidden />
+    <div class="mb-3">
+        <label asp-for="Product.Title"></label>
+        <input type="text" asp-for="Product.Title" class="form-control" disabled />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.Description"></label>
+        <input type="text" asp-for="Product.Description" class="form-control" disabled />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.Price"></label>
+        <input type="text" asp-for="Product.Price" class="form-control" disabled />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.CategoryId"></label>
+        <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border" disabled>
+            <option disabled selected>--Select Category--</option>
+        </select>
+        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Product.ImageURL"></label>
+        <input type="text" asp-for="Product.ImageURL" class="form-control" disabled />
+        <span asp-validation-for="Product.ImageURL" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-danger" style="width:100%">Delete</button>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-secondary" style="width:100%">Back to list</a>
+        </div>
+    </div>
+</form>
