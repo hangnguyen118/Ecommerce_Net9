@@ -18,6 +18,7 @@ namespace EcommerceWebsite.DataContext.Repository
         {
             _db = db;
             this.dbSet = _db.Set<T>();
+            _db.Products.Include(u => u.Category).Include(u => u.CategoryId);
         }
         public IEnumerable<T> GetAll()
         {
@@ -32,16 +33,33 @@ namespace EcommerceWebsite.DataContext.Repository
         {
             dbSet.Remove(entity);
         }
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll(string includeProperties)
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
+            return query.ToList();
         }
     }
 }

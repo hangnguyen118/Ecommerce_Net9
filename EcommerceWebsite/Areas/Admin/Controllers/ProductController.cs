@@ -9,14 +9,16 @@ namespace EcommerceWebsite.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController : Controller
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            List<Product> products = _unitOfWork.Product.GetAll().ToList();
+            List<Product> products = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
             return View(products);            
         }
         public IActionResult Upsert(int? Id)
@@ -45,12 +47,32 @@ namespace EcommerceWebsite.Areas.Admin.Controllers
         public IActionResult Upsert(ProductVM obj, IFormFile? file)
         {            
             if (ModelState.IsValid)
-            {               
+            {        
+                string rootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(rootPath, @"images\product");
+                    if (!string.IsNullOrEmpty(obj.Product.ImageURL))
+                    {
+                        var oldImageUrl =
+                            Path.Combine(rootPath, obj.Product.ImageURL.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImageUrl))
+                        {
+                            System.IO.File.Delete(oldImageUrl);
+                        }
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    obj.Product.ImageURL = @"\images\product\" + fileName;
+                }
                 _unitOfWork.Product.Update(obj.Product); 
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
-            }
+                }
             return View();
         }       
         public IActionResult Delete(int? id)
@@ -83,6 +105,11 @@ namespace EcommerceWebsite.Areas.Admin.Controllers
             if (obj == null)
             {
                 return NotFound();
+            }
+            var oldImageUrl = Path.Combine(_webHostEnvironment.WebRootPath, obj.ImageURL.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImageUrl))
+            {
+                System.IO.File.Delete(oldImageUrl);
             }
             _unitOfWork.Product.Remove(obj);
             _unitOfWork.Save();

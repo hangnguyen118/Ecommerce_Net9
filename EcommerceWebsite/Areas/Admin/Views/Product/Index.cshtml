@@ -34,7 +34,7 @@
                     <td>@obj.Title</td>
                     <td>@obj.Description</td>
                     <td>@obj.Price</td>
-                    <td>@obj.CategoryId</td>
+                    <td>@obj.Category.Name</td>
                     <td>@(string.IsNullOrEmpty(obj.ImageURL) ? "No Image" : obj.ImageURL)</td>
                     <td>
                         <a asp-controller="Product" asp-area="Admin" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i></a>
