@@ -2,9 +2,12 @@
 
 <h1>@(Model.Product.Id!=0?"Update":"Create") Product</h1>
 <form method="post" enctype="multipart/form-data">
-    <input asp-for="Product.Id" hidden />
-    <div asp-validation-summary="ModelOnly"></div>
-    <div class="mb-3">
+    <input asp-for="Product.Id" hidden/>
+    <input asp-for="Product.ImageURL" hidden />
+    <div class="row">
+     <div class="col-9">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="mb-3">
         <label asp-for="Product.Title"></label>      
         <input type="text" asp-for="Product.Title" class="form-control" />
         <span asp-validation-for="Product.Title" class="text-danger"></span>
@@ -27,26 +30,33 @@
             <option disabled selected>--Select Category--</option>
         </select>
         <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+    </div>         
     </div>
-    <div class="mb-3">
-        <label asp-for="Product.ImageURL"></label>
-        <input type="file" asp-for="Product.ImageURL" class="form-control" />      
-    </div>
-    <div class="row">
-        <div class="col-6">
-            @if (Model.Product.Id != 0)
-            {
-                <button type = "submit" class="btn btn-primary" style="width:100%">Update</button>
-            }
-            else
-            {
-                <button type="submit" class="btn btn-primary" style="width:100%">Create</button>
-            }
+    <div class="col-3">
+         <div class="mb-3">
+             <img src="@Model.Product.ImageURL" width="100%" style="border-radius:5px"/>
+         </div>
+        <div class="mb-3">
+            <label asp-for="Product.ImageURL"></label>
+            <input type="file" name="file" asp-for="Product.ImageURL" class="form-control" />      
+        </div> 
+     </div>
+     <div class="row col-9">
+            <div class="col-6">
+                @if (Model.Product.Id != 0)
+                {
+                    <button type="submit" class="btn btn-primary" style="width:100%">Update</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary" style="width:100%">Create</button>
+                }
+            </div>
+            <div class="col-6">
+                <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-secondary" style="width:100%">Back to list</a>
+            </div>
         </div>
-        <div class="col-6">
-            <a asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-secondary" style="width:100%">Back to list</a>
-        </div>             
-    </div>
+     </div>    
 </form>
 @section Scripts {
     <script>
