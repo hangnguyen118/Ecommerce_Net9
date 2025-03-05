@@ -28,13 +28,17 @@ namespace EcommerceWebsite.Areas.Customer
         }
         public IActionResult Details(int id)
         {
-            ShoppingCart cart = new()
+            Product productFromDb = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "Category");
+            if (productFromDb == null)
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "Category"),
-                Count = 1,
-                ProductId = id
+                return NotFound();
+            }
+            ShoppingCart shoppingCart = new ShoppingCart()
+            {
+                Product = productFromDb,                
+                Count = 1
             };
-            return View(cart);
+            return View(shoppingCart);
         }
         [HttpPost]
         [Authorize]
@@ -42,19 +46,21 @@ namespace EcommerceWebsite.Areas.Customer
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            shoppingCart.ApplicationUserId = userId;
+
             ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
                 u.ProductId == shoppingCart.ProductId
             );
-            if(shoppingCartFromDb!=null)
+            if (shoppingCartFromDb != null)
             {
                 shoppingCartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(shoppingCartFromDb);
             }
             else
             {
+                shoppingCart.ApplicationUserId = userId;
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
-            }            
+
+            };
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }

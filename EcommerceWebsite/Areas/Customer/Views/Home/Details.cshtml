@@ -3,9 +3,11 @@
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
 <form asp-action="Details" method="post">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <input type="hidden" asp-for="ProductId" value="@Model.Product.Id" />
     <div>
         <p>@Model.Product.Title</p>
-        <image src="@Model.Product.ImageURL"></image>        
+        <image src="@Model.Product.ImageURL"></image>               
     </div>
     <div>
         @Html.Raw(Model.Product.Description)
