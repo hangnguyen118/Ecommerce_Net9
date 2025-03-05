@@ -38,6 +38,12 @@
                 </select>
                 <label asp-for="Input.RoleList">Role</label>
             </div>
+            <div id="SelectCompany" style="display:none;" class="form-floating mb-3">
+                <select asp-for="Input.CompanyId" asp-items="@Model.Input.CompanyList" class="form-select" aria-required="true">
+                    <option disabled selected>--Select Company--</option>
+                </select>
+                <label asp-for="Input.CompanyList">Company</label>
+            </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
@@ -47,7 +53,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
+            </div>            
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
@@ -85,4 +91,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#Input_Role').change(function() {
+                var selection = $('#Input_Role option:selected').text();
+                if (selection === 'Company') {
+                    $('#SelectCompany').show();
+                } else {
+                    $('#SelectCompany').hide();
+                }
+            });
+        });
+    </script>
 }

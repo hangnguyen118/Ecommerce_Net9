@@ -1,0 +1,22 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+<form asp-action="Details" method="post">
+    <div>
+        <p>@Model.Product.Title</p>
+        <image src="@Model.Product.ImageURL"></image>        
+    </div>
+    <div>
+        @Html.Raw(Model.Product.Description)
+    </div>    
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-primary text-white border-0 fw-semibold">
+            Count
+        </span>
+        <input asp-for="Count" type="number" value="1" class="form-control text-end" min="1" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-4">
+        <i class="bi bi-cart-plus"></i> Add to cart
+    </button>
+</form>
