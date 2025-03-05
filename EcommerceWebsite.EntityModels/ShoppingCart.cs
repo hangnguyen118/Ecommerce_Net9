@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceWebsite.EntityModels
 {
+    [Table("ShoppingCart")]
     public class ShoppingCart
     {
         [Key]

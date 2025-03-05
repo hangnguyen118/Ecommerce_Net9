@@ -11,7 +11,7 @@ namespace EcommerceWebsite.DataContext.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "shoppingCarts",
+                name: "ShoppingCarts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,15 +22,15 @@ namespace EcommerceWebsite.DataContext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_shoppingCarts", x => x.Id);
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_shoppingCarts_AspNetUsers_ApplicationUserId",
+                        name: "FK_ShoppingCarts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_shoppingCarts_Products_ProductId",
+                        name: "FK_ShoppingCarts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -38,13 +38,13 @@ namespace EcommerceWebsite.DataContext.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_shoppingCarts_ApplicationUserId",
-                table: "shoppingCarts",
+                name: "IX_ShoppingCarts_ApplicationUserId",
+                table: "ShoppingCarts",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_shoppingCarts_ProductId",
-                table: "shoppingCarts",
+                name: "IX_ShoppingCarts_ProductId",
+                table: "ShoppingCarts",
                 column: "ProductId");
         }
 
@@ -52,7 +52,7 @@ namespace EcommerceWebsite.DataContext.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "shoppingCarts");
+                name: "ShoppingCarts");
         }
     }
 }
