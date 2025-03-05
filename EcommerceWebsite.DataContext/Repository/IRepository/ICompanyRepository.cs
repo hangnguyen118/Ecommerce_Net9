@@ -1,0 +1,15 @@
+﻿using EcommerceWebsite.EntityModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EcommerceWebsite.DataContext.Repository.IRepository
+{
+    public interface ICompanyRepository : IRepository<Company>
+    {
+        IEnumerable<Company> GetAll();
+        void Update(Company obj);
+    }
+}

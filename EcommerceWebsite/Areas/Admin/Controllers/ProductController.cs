@@ -1,12 +1,15 @@
 ﻿using EcommerceWebsite.DataContext.Repository.IRepository;
 using EcommerceWebsite.EntityModels;
 using EcommerceWebsite.EntityModels.ViewModels;
+using EcommerceWebsite.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcommerceWebsite.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;

@@ -1,0 +1,51 @@
+﻿@model Company
+
+<h1>@(Model.Id != 0 ? "Update" : "Create") Company</h1>
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="State"></label>
+        <input type="text" asp-for="State" class="form-control" />
+        <span asp-validation-for="State" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="StreetAddress"></label>
+        <input type="text" asp-for="StreetAddress" class="form-control" />
+        <span asp-validation-for="StreetAddress" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PostalCode"></label>
+        <input type="text" asp-for="PostalCode" class="form-control" />
+        <span asp-validation-for="PostalCode" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber"></label>
+        <input type="text" asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            @if (Model.Id != 0)
+            {
+                <button type="submit" class="btn btn-primary" style="width:100%">Update</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary" style="width:100%">Create</button>
+            }
+        </div>
+        <div class="col-6">
+            <a asp-controller="Company" asp-area="Admin" asp-action="Index" class="btn btn-secondary" style="width:100%">Back to list</a>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

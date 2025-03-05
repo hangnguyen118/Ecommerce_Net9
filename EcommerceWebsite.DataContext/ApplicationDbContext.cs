@@ -13,6 +13,8 @@ namespace EcommerceWebsite.DataContext
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers {get; set;}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -31,6 +33,11 @@ namespace EcommerceWebsite.DataContext
                 new Product { Id = 7, Title = "Product 7", Description = "no description", Price = 400, CategoryId = 1, ImageURL = null },
                 new Product { Id = 8, Title = "Product 8", Description = "no description", Price = 400, CategoryId = 2, ImageURL = null },
                 new Product { Id = 9, Title = "Product 9", Description = "no description", Price = 400, CategoryId = 1, ImageURL = null }
+                );
+            builder.Entity<Company>().HasData(
+                new Company { Id = 1, Name = "Company 1", City = "HCM", State = "12 Distreet", StreetAddress = "Nguyen Van Qua", PostalCode = "1253", PhoneNumber = "0326789532"},
+                new Company { Id = 2, Name = "Company 2", City = "HCM", State = "1 Distreet", StreetAddress = "Nguyen Van Cu", PostalCode = "2222", PhoneNumber = "2245655336" },
+                new Company { Id = 3, Name = "Company 3", City = "HCM", State = "4 Distreet", StreetAddress = "Phan Van Tri", PostalCode = "33356", PhoneNumber = "05645645645" }
                 );
         }       
     }
