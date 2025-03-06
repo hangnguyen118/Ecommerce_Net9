@@ -51,7 +51,10 @@ namespace EcommerceWebsite.DataContext.Repository
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            query = query.Where(filter);
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }            
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var property in includeProperties
@@ -61,6 +64,10 @@ namespace EcommerceWebsite.DataContext.Repository
                 }
             }
             return query.ToList();
+        }
+        public void RemoveRange(IEnumerable<T> entity)
+        {
+            dbSet.RemoveRange(entity);
         }
     }
 }

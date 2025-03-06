@@ -26,7 +26,7 @@ namespace EcommerceWebsite.EntityModels
 
         [Required]
         [DisplayName("Product List Price")]
-        [Range(1, 1000)]
+        [Range(1000, 2000000000)]
         public double Price { get; set; }
 
         public int CategoryId { get; set; }

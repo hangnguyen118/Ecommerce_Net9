@@ -6,12 +6,15 @@
     <input type="hidden" asp-for="Id" value="@Model.Id"/>
     <input type="hidden" asp-for="ProductId" value="@Model.Product.Id" />
     <div>
-        <p>@Model.Product.Title</p>
+        <h2>@Model.Product.Title</h2>
         <image src="@Model.Product.ImageURL"></image>               
     </div>
     <div>
         @Html.Raw(Model.Product.Description)
     </div>    
+    <div>       
+        <p class="text-danger">Price: @Model.Product.Price.ToString("N0")đ</p>
+    </div>
     <div class="input-group mb-3">
         <span class="input-group-text bg-primary text-white border-0 fw-semibold">
             Count

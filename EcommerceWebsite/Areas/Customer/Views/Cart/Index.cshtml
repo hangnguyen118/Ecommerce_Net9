@@ -31,7 +31,7 @@ else
                     <td>
                         <img src="@item.Product.ImageURL" alt="@item.Product.Title" width="50" height="50" class="rounded">
                     </td>
-                    <td>$@item.Product.Price.ToString("0.00")</td>
+                    <td>@item.Product.Price.ToString("N0")đ</td>
                     <td>
                         <div class="d-flex justify-content-between">
                             <a asp-action="Plus" asp-route-id="@item.Id" class="btn btn-sm btn-primary">+</a>
@@ -39,7 +39,7 @@ else
                             <a asp-action="Minus" asp-route-id="@item.Id" class="btn btn-sm btn-primary">-</a>
                         </div>
                     </td>
-                    <td>$@(item.Price)</td>
+                    <td>@(item.Price)đ</td>
                     <td>
                         <a asp-action="RemoveFromCart" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Remove</a>                       
                     </td>
@@ -48,10 +48,10 @@ else
         </tbody>
     </table>
 
-    <h4 class="text-end">Total: <span class="text-success">$@Model.TotalPrice.ToString("0.00")</span></h4>
+    <h4 class="text-end">Total: <span class="text-success">@Model.Order.OrderTotal.ToString("N0")đ</span></h4>
 
     <div class="text-end">
         <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to store</a>
-        <a asp-area="Customer" asp-controller="Checkout" asp-action="Index" class="btn btn-success">Checkout</a>
+        <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-success">Checkout</a>
     </div>
 }

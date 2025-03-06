@@ -1,0 +1,24 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Order Successful";
+}
+
+<div class="container text-center mt-5">
+    <div class="alert alert-success" role="alert">
+        <h1 class="display-4">🎉 Order Placed Successfully! 🎉</h1>
+        <p class="lead">Thank you for your purchase. Your order has been confirmed.</p>
+    </div>
+
+    <div class="card shadow-lg p-4">
+        <h3 class="text-success">Order Details</h3>
+        <ul class="list-group mt-3">
+            <li class="list-group-item"><strong>Order ID:@Model.ToString()</strong></li>
+            <li class="list-group-item"><strong>Order Date:</strong> @DateTime.Now.ToString("MM/dd/yyyy HH:mm")</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <a asp-page="/Orders/History" class="btn btn-primary">View Order History</a>
+        <a asp-page="/Products/Index" class="btn btn-outline-secondary">Continue Shopping</a>
+    </div>
+</div>

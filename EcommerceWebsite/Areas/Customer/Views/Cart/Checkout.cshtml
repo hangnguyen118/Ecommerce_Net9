@@ -1,0 +1,79 @@
+﻿@model ShoppingCartVM
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Checkout</h2>
+
+    <div class="row">       
+        <div class="col-md-6">
+            <h4>Your Cart</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ShoppingCartList)
+                    {
+                        <tr>
+                            <td>@item.Product.Title</td>
+                            <td>@item.Count</td>
+                            <td>@item.Product.Price.ToString("N0")đ</td>
+                            <td>@((item.Count * item.Product.Price).ToString("N0"))đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p class="text-danger fs-6">
+                Estimate Arrival Date: 
+                @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()</p>
+            <h4 class="text-end">Total: <span class="text-primary">@Model.Order.OrderTotal.ToString("N0")đ</span></h4>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Billing Details</h4>
+            <form asp-action="Checkout" method="post">
+                <div class="mb-3">
+                    <label asp-for="Order.Name" class="form-label">Full Name</label>
+                    <input asp-for="Order.Name" class="form-control" required>
+                    <span asp-validation-for="Order.Name" class="text-danger"></span>
+                </div>                
+
+                <div class="mb-3">
+                    <label asp-for="Order.PhoneNumber" class="form-label">Phone</label>
+                    <input asp-for="Order.PhoneNumber" type="tel" class="form-control" required>
+                    <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Order.City" class="form-label">City</label>
+                    <input asp-for="Order.City" class="form-control" required>
+                    <span asp-validation-for="Order.City" class="text-danger"></span>
+                </div>                
+                <div class="mb-3">
+                    <label asp-for="Order.State" class="form-label">State</label>
+                    <input asp-for="Order.State" class="form-control" required>
+                    <span asp-validation-for="Order.State" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Order.StreetAddress" class="form-label">Street Address</label>
+                    <textarea asp-for="Order.StreetAddress" class="form-control" rows="3" required></textarea> 
+                    <span asp-validation-for="Order.StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Order.PostalCode" class="form-label">Postal Code</label>
+                    <input asp-for="Order.PostalCode" type="tel" class="form-control" required>
+                    <span asp-validation-for="Order.PostalCode" class="text-danger"></span>
+                </div>                
+                <button type="submit" class="btn btn-primary w-100 mb-3">Place Order</button>
+                <a asp-action="Index" class="btn btn-secondary w-100">Back to cart</a>
+            </form>
+        </div>
+    </div>
+</div>

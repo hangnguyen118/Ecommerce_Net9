@@ -15,6 +15,8 @@ namespace EcommerceWebsite.DataContext.Repository
         public ICompanyRepository Company { get; private set; }
         public IShoppingCartRepository ShoppingCart { get; private set; }
         public IApplicationUserRepository ApplicationUser { get; private set; }
+        public IOrderRepository Order { get; private set; }
+        public IOrderDetailRepository OrderDetail { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -23,6 +25,8 @@ namespace EcommerceWebsite.DataContext.Repository
             Company = new CompanyRepository(_db);
             ShoppingCart = new ShoppingCartRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            Order = new OrderRepository(_db);
+            OrderDetail = new OrderDetailRepository(_db);
         }
        
         public void Save()

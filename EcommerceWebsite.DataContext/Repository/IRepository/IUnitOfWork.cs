@@ -14,6 +14,8 @@ namespace EcommerceWebsite.DataContext.Repository.IRepository
 
         IShoppingCartRepository ShoppingCart { get; }
         IApplicationUserRepository ApplicationUser { get; }
+        IOrderRepository Order { get; }
+        IOrderDetailRepository OrderDetail { get; }
         void Save();
     }
 }
