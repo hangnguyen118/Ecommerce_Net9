@@ -13,9 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EcommerceWebsite.EntityModels\EcommerceWebsite.EntityModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\EcommerceWebsite.Utility\EcommerceWebsite.Utility.csproj" />
   </ItemGroup>
 </Project>

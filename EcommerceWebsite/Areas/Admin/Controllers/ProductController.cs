@@ -21,7 +21,7 @@ namespace EcommerceWebsite.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> products = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
+            IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
             return View(products);            
         }
         public IActionResult Upsert(int? Id)

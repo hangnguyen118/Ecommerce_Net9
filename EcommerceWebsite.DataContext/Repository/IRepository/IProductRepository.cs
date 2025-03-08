@@ -9,7 +9,6 @@ namespace EcommerceWebsite.DataContext.Repository.IRepository
 {
     public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<Product> GetAll();
         void Update(Product product);
     }
 }

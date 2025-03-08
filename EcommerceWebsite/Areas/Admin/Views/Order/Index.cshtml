@@ -1,0 +1,96 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Order Management Page";
+}
+@{
+    var status = Context.Request.Query["status"];
+    var pending = "text-black";
+    var inprocess = "text-black";
+    var completed = "text-black";
+    var approved = "text-black";
+    var all = "text-black";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-primary";
+            break;
+        case "inprocess":
+            inprocess = "active text-primary";
+            break;
+        case "completed":
+            completed = "active text-primary";
+            break;
+        case "approved":
+            approved = "active text-primary";
+            break;
+        default:
+            all = "active text-primary";
+            break;
+
+    }
+
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1 class="display-4">Order Page <i class="bi bi-bell"></i></h1>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Product" asp-area="Admin" asp-action="Upsert" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Create new</a>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between pb-5 pt-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <li class="list-group-item">
+                    <a class="text-decoration-none @inprocess" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">In Proccess</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="text-decoration-none @pending" asp-controller="Order" asp-action="Index" asp-route-status="pending">Pending</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="text-decoration-none @completed" asp-controller="Order" asp-action="Index" asp-route-status="completed">Completed</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="text-decoration-none @approved" asp-controller="Order" asp-action="Index" asp-route-status="approved">Approved</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="text-decoration-none @all" asp-controller="Order" asp-action="Index" asp-route-status="all">All</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Status</th>              
+                <th>Total</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model) 
+            { 
+                 <tr> 
+                     <td>@obj.Id</td> 
+                     <td>@obj.Name</td> 
+                     <td>@obj.PhoneNumber</td> 
+                     <td>@obj.ApplicationUser.Email</td> 
+                     <td>@obj.OrderStatus</td>
+                     <td>@obj.OrderTotal.ToString("N0")đ</td>
+                    <td>
+                        <a asp-controller="Order" asp-area="Admin" asp-action="Details" asp-route-id="@obj.Id" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i></a>
+                    </td> 
+                 </tr> 
+             } 
+        </tbody>
+    </table>
+</div>

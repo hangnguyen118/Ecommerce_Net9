@@ -68,7 +68,7 @@ namespace EcommerceWebsite.Areas.Customer
         }
         public IActionResult Minus(int id)
         {
-            ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == id);
+            ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == id, tracked: true);
             if (shoppingCartFromDb == null)
             {
                 return NotFound();
@@ -80,6 +80,8 @@ namespace EcommerceWebsite.Areas.Customer
             }
             else
             {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.
+                    GetAll(u => u.ApplicationUserId == shoppingCartFromDb.ApplicationUserId).Count() - 1);
                 _unitOfWork.ShoppingCart.Remove(shoppingCartFromDb);
             }
             _unitOfWork.Save();
@@ -87,15 +89,17 @@ namespace EcommerceWebsite.Areas.Customer
         }
         public IActionResult RemoveFromCart(int id)
         {
-            ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == id);
+            ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == id, tracked:true);
             if (shoppingCartFromDb == null)
             {
                 return NotFound();
             }
             else
             {
-                _unitOfWork.ShoppingCart.Remove(shoppingCartFromDb);
-                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.
+                   GetAll(u => u.ApplicationUserId == shoppingCartFromDb.ApplicationUserId).Count() - 1);
+                _unitOfWork.ShoppingCart.Remove(shoppingCartFromDb);               
+                _unitOfWork.Save();                
             }
             return RedirectToAction(nameof(Index));
         }
@@ -195,16 +199,15 @@ namespace EcommerceWebsite.Areas.Customer
             Order order = _unitOfWork.Order.Get(u => u.Id == id, includeProperties: "ApplicationUser");
             if(order.PaymentStatus!=SD.PaymentStatusDelayedPayment)
             {
-
-            }
-
-            var service = new SessionService();
-            Session session = service.Get(order.SessionId);
-            if(session.PaymentStatus.ToLower() == "paid")
-            {
-                _unitOfWork.Order.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
-                _unitOfWork.Order.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
-                _unitOfWork.Save();
+                var service = new SessionService();
+                Session session = service.Get(order.SessionId);
+                if (session.PaymentStatus.ToLower() == "paid")
+                {
+                    _unitOfWork.Order.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
+                    _unitOfWork.Order.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
+                }
+                HttpContext.Session.Clear();
             }
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == order.ApplicationUserId).ToList();
             _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);

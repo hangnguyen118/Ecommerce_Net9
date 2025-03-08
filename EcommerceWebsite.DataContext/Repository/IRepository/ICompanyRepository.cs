@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace EcommerceWebsite.DataContext.Repository.IRepository
 {
     public interface ICompanyRepository : IRepository<Company>
-    {
-        IEnumerable<Company> GetAll();
+    {      
         void Update(Company obj);
     }
 }

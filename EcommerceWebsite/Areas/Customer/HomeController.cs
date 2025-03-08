@@ -2,10 +2,9 @@ using System.Diagnostics;
 using System.Security.Claims;
 using EcommerceWebsite.DataContext.Repository.IRepository;
 using EcommerceWebsite.EntityModels;
-using EcommerceWebsite.EntityModels.ViewModels;
+using EcommerceWebsite.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcommerceWebsite.Areas.Customer
 {
@@ -23,6 +22,14 @@ namespace EcommerceWebsite.Areas.Customer
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+
             List<Product> products = _unitOfWork.Product.GetAll().ToList();
             return View(products);
         }
@@ -54,14 +61,16 @@ namespace EcommerceWebsite.Areas.Customer
             {
                 shoppingCartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(shoppingCartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
                 shoppingCart.ApplicationUserId = userId;
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
-
-            };
-            _unitOfWork.Save();
+                _unitOfWork.Save();
+                var itemInCart = _unitOfWork.ShoppingCart.GetAll (u => u.ApplicationUserId == userId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCart, itemInCart);
+            };            
             return RedirectToAction(nameof(Index));
         }
 
